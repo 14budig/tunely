@@ -30,7 +30,6 @@ $(document).ready(function() {
       event.preventDefault();
       var id= $(this).closest('.album').data('album-id');
       $('#songModal').data('album-id', id);
-      console.log('id',id);
       $('#songModal').modal();
     });
 
@@ -45,6 +44,20 @@ $(document).ready(function() {
     var albumId = $('#songModal').data('album-id');
     console.log(albumId);
     var url = '/api/albums/'+ albumId + '/songs/';
+    var data = {
+      name: $('#songName').val(),
+      trackNumber: $('#trackNumber').val()
+    }
+    $.ajax({
+      method: 'POST',
+      url: url,
+      data: data,
+      success: function(json){
+        $('div[data-album-id=' + json._id + ']').remove();
+        renderAlbum(json);
+        $('#songModal').modal('hide');
+      }
+    });
   });
 });
 
