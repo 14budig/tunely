@@ -32,7 +32,14 @@ function show(req, res) {
 }
 
 function destroy(req, res) {
-  // FILL ME IN !
+  console.log(req.params.albumId);
+  db.Album.findOneAndRemove({_id: req.params.albumId}, function(err, album){
+    if (err){
+      return console.log(err);
+    }
+    res.json(album);
+  });
+  //res.status(200).send("Success");
 }
 
 function update(req, res) {

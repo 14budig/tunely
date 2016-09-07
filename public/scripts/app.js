@@ -42,7 +42,7 @@ $(document).ready(function() {
     // close modal
     // update the correct album to show the new song
     var albumId = $('#songModal').data('album-id');
-    console.log(albumId);
+    //console.log(albumId);
     var url = '/api/albums/'+ albumId + '/songs/';
     var data = {
       name: $('#songName').val(),
@@ -58,6 +58,18 @@ $(document).ready(function() {
         $('#songModal').modal('hide');
       }
     });
+  });
+
+  $('#albums').on('click', '.delete', function(event){
+    var id= $(this).closest('.album').data('album-id');
+    if(window.confirm("Are you sure?")){
+      $.ajax({
+        url: '/api/albums/' + id,
+        method: 'DELETE',
+        success: function(json){
+          $('div[data-album-id=' + json._id + ']').remove();
+        }
+    })}
   });
 });
 
